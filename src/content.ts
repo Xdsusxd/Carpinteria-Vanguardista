@@ -140,7 +140,7 @@ export const content = {
 
   footer: {
     copyright: "© 2026 Carpinteria Vanguardista.",
-    desarrolladoPor: "Desarrollado por GomaDesign",
+    desarrolladoPor: "Desarrollado por SusGoma",
     socials: [
       { label: "Instagram", href: "#" },
       { label: "Facebook", href: "#" },
