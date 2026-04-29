@@ -43,7 +43,7 @@ export const content = {
     stat: "CNC",
     statLabel: "Corte y Fabricación con CNC",
     ctaButton: {
-      text: "Contáctanos",
+      text: "Contacto",
       href: WHATSAPP_URL,
     },
   },
