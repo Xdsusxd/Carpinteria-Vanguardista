@@ -9,8 +9,11 @@ export default function Navbar() {
 
   return (
     <nav className="flex items-center justify-between py-6 px-6 md:px-10 w-full relative z-10">
-      <div className="md:hidden">
-        <span className="font-normal tracking-tight text-lg text-white/90">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center border border-black/10">
+          <span className="text-black font-bold text-sm tracking-tighter">CV</span>
+        </div>
+        <span className="font-normal tracking-tight text-lg text-white/90 hidden sm:block">
           {brand.name}
         </span>
       </div>
