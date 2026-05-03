@@ -1,6 +1,6 @@
-const WHATSAPP_NUMBER = "5215551234567";
-const WHATSAPP_MESSAGE = "Hola, me interesa cotizar un mueble a medida.";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const WHATSAPP_NUMBER = "2411678134";
+const WHATSAPP_MESSAGE = "Hola, me interesa cotizar...";
+const WHATSAPP_URL = `https://wa.me/${2411678134}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
 export const content = {
   brand: {
