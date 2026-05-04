@@ -1,4 +1,6 @@
 import { motion } from "motion/react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 import { hero } from "../content";
 import Navbar from "./Navbar";
 import HeroBadge from "./HeroBadge";
@@ -6,6 +8,36 @@ import BottomLeftCard from "./BottomLeftCard";
 import BottomRightCorner from "./BottomRightCorner";
 
 export default function Hero() {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (headingRef.current && !headingRef.current.dataset.animated) {
+      headingRef.current.dataset.animated = "true";
+      const text = headingRef.current.innerText;
+      headingRef.current.innerHTML = "";
+      
+      const chars = text.split("");
+      chars.forEach((char) => {
+        const span = document.createElement("span");
+        span.style.display = "inline-block";
+        span.style.opacity = "0";
+        span.style.transform = "translateY(30px) scale(0.9)";
+        span.innerText = char === " " ? "\u00A0" : char;
+        headingRef.current?.appendChild(span);
+      });
+
+      gsap.to(headingRef.current.children, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.8,
+        stagger: 0.04,
+        ease: "power3.out",
+        delay: 0.2
+      });
+    }
+  }, []);
+
   return (
     <div
       id="inicio"
@@ -30,14 +62,12 @@ export default function Hero() {
           <div className="w-full flex flex-col items-center pt-8 px-6 text-center max-w-4xl">
             <HeroBadge />
 
-            <motion.h1
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+            <h1
+              ref={headingRef}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-normal text-white mb-2 tracking-tight leading-[1.05]"
             >
               {hero.heading}
-            </motion.h1>
+            </h1>
 
             <motion.p
               initial={{ opacity: 0 }}

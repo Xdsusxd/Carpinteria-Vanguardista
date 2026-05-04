@@ -1,8 +1,42 @@
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { bottomLeftCard } from "../content";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 export default function BottomLeftCard() {
+  const statRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (statRef.current && !statRef.current.dataset.animated) {
+      statRef.current.dataset.animated = "true";
+      const originalText = bottomLeftCard.stat;
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+      const obj = { value: 0 };
+
+      gsap.to(obj, {
+        value: originalText.length,
+        duration: 1.2,
+        delay: 0.8,
+        ease: "none",
+        onUpdate: function () {
+          if (statRef.current) {
+            statRef.current.innerText = originalText
+              .split("")
+              .map((_, index) => {
+                if (index < obj.value) {
+                  return originalText[index];
+                }
+                return letters[Math.floor(Math.random() * letters.length)];
+              })
+              .join("");
+          }
+        },
+      });
+    }
+  }, []);
+
   return (
     <motion.div
       initial={{ x: -20, opacity: 0 }}
@@ -11,7 +45,7 @@ export default function BottomLeftCard() {
       className="absolute bottom-28 right-4 left-auto md:left-6 md:right-auto md:bottom-6 lg:bottom-10 lg:left-10 p-3 md:p-4 lg:p-5 rounded-[1.2rem] md:rounded-[1.5rem] lg:rounded-[2.2rem] bg-black/40 backdrop-blur-xl border border-white/10 flex flex-col gap-2 lg:gap-3 min-w-[140px] md:min-w-[150px] lg:min-w-[180px] w-fit"
     >
       <div className="flex flex-col">
-        <span className="text-2xl md:text-3xl font-normal text-white tracking-tight">
+        <span ref={statRef} className="text-2xl md:text-3xl font-normal text-white tracking-tight">
           {bottomLeftCard.stat}
         </span>
         <span className="text-[10px] md:text-[12px] font-normal text-white/50 uppercase tracking-wider">

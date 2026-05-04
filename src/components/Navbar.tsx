@@ -1,11 +1,23 @@
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { navbar, brand } from "../content";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
+import gsap from "gsap";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const linksRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (linksRef.current) {
+      gsap.fromTo(
+        linksRef.current.children,
+        { y: -15, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, delay: 0.5, ease: "power3.out" }
+      );
+    }
+  }, []);
 
   return (
     <nav className="flex items-center justify-between py-6 px-6 md:px-10 w-full relative z-10">
@@ -17,7 +29,7 @@ export default function Navbar() {
 
       <div className="flex-1 hidden md:block" />
 
-      <ul className="hidden md:flex items-center gap-8 text-white/80 font-normal text-sm">
+      <ul ref={linksRef} className="hidden md:flex items-center gap-8 text-white/80 font-normal text-sm">
         {navbar.menuItems.map((item) => (
           <li key={item.label}>
             <a

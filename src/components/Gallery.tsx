@@ -1,10 +1,38 @@
 import { motion } from "motion/react";
 import { gallery } from "../content";
 import SectionBadge from "./SectionBadge";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Gallery() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
+
+  useEffect(() => {
+    const validImages = imagesRef.current.filter(Boolean);
+    validImages.forEach((img) => {
+      if (img) {
+        gsap.fromTo(
+          img,
+          { yPercent: -15 },
+          {
+            yPercent: 15,
+            ease: "none",
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      }
+    });
+  }, []);
 
   return (
     <section
@@ -46,19 +74,14 @@ export default function Gallery() {
               onMouseLeave={() => setHoveredIndex(null)}
               className="group relative aspect-[4/5] rounded-[1.5rem] overflow-hidden cursor-pointer bg-white/[0.03] border border-white/[0.06]"
             >
-              <div
-                className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
-                style={{
-                  background: `linear-gradient(${135 + index * 30}deg, rgba(255,255,255,${0.03 + index * 0.01}), rgba(255,255,255,${0.08 + index * 0.005}), rgba(255,255,255,${0.02 + index * 0.01}))`,
+              <img
+                ref={(el) => {
+                  imagesRef.current[index] = el;
                 }}
+                src={item.image}
+                alt={item.title}
+                className="absolute inset-0 w-full h-[130%] -top-[15%] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
-
-              <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:opacity-30 transition-opacity duration-500">
-                <div
-                  className="w-24 h-24 md:w-32 md:h-32 rounded-full border border-white/20"
-                  style={{ background: `radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)` }}
-                />
-              </div>
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
@@ -84,6 +107,24 @@ export default function Gallery() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-16 flex justify-center"
+        >
+          <Link
+            to="/galeria"
+            className="px-8 py-4 rounded-full bg-white text-black font-normal hover:bg-white/90 transition-colors flex items-center gap-2"
+          >
+            Ver más trabajos
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

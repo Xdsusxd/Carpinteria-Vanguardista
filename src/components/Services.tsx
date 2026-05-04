@@ -1,7 +1,12 @@
 import { motion } from "motion/react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Ruler, Hammer, Home, Paintbrush, Layers, Lightbulb } from "lucide-react";
 import { services } from "../content";
 import SectionBadge from "./SectionBadge";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Ruler,
@@ -13,8 +18,33 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export default function Services() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const validCards = cardsRef.current.filter(Boolean);
+    if (validCards.length > 0 && sectionRef.current) {
+      gsap.fromTo(
+        validCards,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "back.out(1.2)",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+          },
+        }
+      );
+    }
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="servicios"
       className="relative w-full py-24 md:py-32 px-6 md:px-10 bg-[#0a0a0a]"
     >
@@ -45,12 +75,11 @@ export default function Services() {
           {services.items.map((item, index) => {
             const IconComponent = iconMap[item.icon];
             return (
-              <motion.div
+              <div
                 key={item.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                ref={(el) => {
+                  cardsRef.current[index] = el;
+                }}
                 className="group relative p-6 md:p-8 rounded-[1.5rem] bg-white/[0.03] border border-white/[0.06] backdrop-blur-sm hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 cursor-default"
               >
                 <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center mb-5 group-hover:bg-white/10 group-hover:border-white/15 transition-all duration-500">
@@ -67,7 +96,7 @@ export default function Services() {
                 </p>
 
                 <div className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              </motion.div>
+              </div>
             );
           })}
         </div>
