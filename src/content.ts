@@ -113,7 +113,7 @@ export const content = {
       {
         title: "",
         category: "",
-        image: "/images/img2.jpeg",
+        image: "/images/img14.jpeg",
       },
       {
         title: "",
@@ -123,17 +123,17 @@ export const content = {
       {
         title: "",
         category: "",
-        image: "/images/img4.jpeg",
+        image: "/images/img16.jpeg",
       },
       {
         title: "",
         category: "",
-        image: "/images/img5.jpeg",
+        image: "/images/img10.jpeg",
       },
       {
         title: "",
         category: "",
-        image: "/images/img6.jpeg",
+        image: "/images/img9.jpeg",
       },
     ],
   },
