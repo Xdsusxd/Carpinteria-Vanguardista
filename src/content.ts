@@ -27,7 +27,7 @@ export const content = {
   },
 
   hero: {
-    videoUrl: "/video/video2.mp4",
+    videoUrl: "/video/video.mp4",
 
     badge: {
       text: "Muebles a Medida",
