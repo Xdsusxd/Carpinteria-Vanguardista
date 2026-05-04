@@ -9,8 +9,8 @@ function HomePage() {
   return (
     <main className="min-h-screen bg-[#0a0a0a]">
       <Hero />
-      <Services />
       <Gallery />
+      <Services />
       <Footer />
     </main>
   );
