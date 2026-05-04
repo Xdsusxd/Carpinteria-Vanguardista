@@ -32,7 +32,7 @@ export default function FullGallery() {
               transition={{ duration: 0.7 }}
               className="text-3xl sm:text-4xl md:text-5xl font-normal text-white tracking-tight mb-4"
             >
-              Nuestro Trabajo en Detalle
+              fotos de proyectos reales
             </motion.h1>
           </div>
 
