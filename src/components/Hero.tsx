@@ -64,7 +64,7 @@ export default function Hero() {
 
             <h1
               ref={headingRef}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-normal text-white mb-2 tracking-tight leading-[1.05]"
+              className="w-full text-center text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-normal text-white mb-2 tracking-tight leading-[1.05]"
             >
               {hero.heading}
             </h1>
